@@ -1,0 +1,26 @@
+{
+  "targetDefaults": {
+    "ng": {
+      "cache": true
+    },
+    "start": {
+      "cache": true
+    },
+    "build": {
+      "cache": true
+    },
+    "watch": {
+      "cache": true
+    },
+    "test": {
+      "cache": true
+    },
+    "serve:ssr:employeeManagement": {
+      "cache": true
+    }
+  },
+  "affected": {
+    "defaultBase": "master"
+  },
+  "nxCloudAccessToken": "MWU2MmJmMzAtNTI5ZS00MjQ2LTlkMDAtMjEwNmE0MThiZGQ4fHJlYWQtd3JpdGU="
+}
