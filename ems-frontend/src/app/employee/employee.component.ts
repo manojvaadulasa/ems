@@ -99,7 +99,11 @@ export class EmployeeComponent implements OnInit,OnDestroy{
     let updateUrl:string=`employees/${data.id}`;
     this.http.delete(this.url+updateUrl)
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(()=>this.getAllEmployees());
+      .subscribe(()=>{
+        this.getAllEmployees();
+      },(error)=>{
+        this.getAllEmployees();
+      });
   }
 
 }

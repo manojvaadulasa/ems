@@ -96,7 +96,7 @@ export class DepartmentComponent implements OnInit,OnDestroy{
     let updateUrl:string=`departments/${data.id}`;
     this.http.delete(this.url+updateUrl)
       .pipe(takeUntil(this.unsubscribe$))
-      .subscribe(()=>this.getAllDepartments());
+      .subscribe(()=>this.getAllDepartments(),()=>this.getAllDepartments());
   }
 
 }
