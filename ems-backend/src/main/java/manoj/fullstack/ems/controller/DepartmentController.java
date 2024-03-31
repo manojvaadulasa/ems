@@ -1,6 +1,7 @@
 package manoj.fullstack.ems.controller;
 
 import lombok.AllArgsConstructor;
+import manoj.fullstack.ems.dto.DeleteDto;
 import manoj.fullstack.ems.dto.DepartmentDto;
 import manoj.fullstack.ems.service.DepartmentService;
 import org.springframework.http.HttpStatus;
@@ -41,8 +42,10 @@ public class DepartmentController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<String> deleteDepartment(@PathVariable("id") Long departmentId){
+    public ResponseEntity<DeleteDto> deleteDepartment(@PathVariable("id") Long departmentId){
         departmentService.deleteDepartment(departmentId);
-        return ResponseEntity.ok("Department deleted successfully!.");
+        DeleteDto deleteDto = new DeleteDto();
+        deleteDto.setMessage("Department deleted successfully!.");
+        return ResponseEntity.ok(deleteDto);
     }
 }

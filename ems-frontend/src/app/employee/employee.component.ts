@@ -30,6 +30,7 @@ import { ReactiveFormsModule } from '@angular/forms';
   selector:'em-employee'
 })
 export class EmployeeComponent implements OnInit,OnDestroy{
+
   toForm = signal(false);
   toEditForm = signal(false);
   data$:EmployeeInterface[]=[];
@@ -47,10 +48,13 @@ export class EmployeeComponent implements OnInit,OnDestroy{
   });
   unsubscribe$=new Subject<void>();
   url:string=environment.URL;
+
   http=inject(HttpClient);
+
   public ngOnInit():void{
     this.getAllEmployees();
   }
+
   public getAllEmployees():void{
     this.http.get(this.url+"employees")
     .pipe(takeUntil(this.unsubscribe$))
@@ -58,16 +62,19 @@ export class EmployeeComponent implements OnInit,OnDestroy{
       this.data$=res;
     });
   }
+
   ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
   }
+
   submitForm():void{
     this.http.post(this.url+"employees",this.form.getRawValue())
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(()=>this.getAllEmployees());
     this.toForm.set(false);
   }
+
   onClickUpdate(data:EmployeeInterface):void{
     this.editingForm.setValue({
       "id": data.id,
@@ -78,6 +85,7 @@ export class EmployeeComponent implements OnInit,OnDestroy{
     this.toForm.set(true);
     this.toEditForm.set(true);
   }
+
   submitEditForm():void{
     let updateUrl:string=`employees/${this.editingForm.get("id")?.value}`;
     this.http.put(this.url+updateUrl,this.editingForm.getRawValue())
@@ -86,10 +94,12 @@ export class EmployeeComponent implements OnInit,OnDestroy{
     this.toEditForm.set(false);
     this.toForm.set(false);
   }
+
   onClickDelete(data:EmployeeInterface):void{
     let updateUrl:string=`employees/${data.id}`;
     this.http.delete(this.url+updateUrl)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(()=>this.getAllEmployees());
   }
+
 }

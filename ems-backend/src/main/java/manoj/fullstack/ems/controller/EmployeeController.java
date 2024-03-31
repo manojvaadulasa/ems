@@ -1,6 +1,7 @@
 package manoj.fullstack.ems.controller;
 
 import lombok.AllArgsConstructor;
+import manoj.fullstack.ems.dto.DeleteDto;
 import manoj.fullstack.ems.dto.EmployeeDto;
 import manoj.fullstack.ems.service.EmployeeService;
 import org.springframework.http.HttpStatus;
@@ -45,8 +46,10 @@ public class EmployeeController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<String> deleteEmployee(@PathVariable("id") Long employeeId){
+    public ResponseEntity<DeleteDto> deleteEmployee(@PathVariable("id") Long employeeId){
         employeeService.deleteEmployee(employeeId);
-        return ResponseEntity.ok("Employee deleted successfully!.");
+        DeleteDto deleteDto = new DeleteDto();
+        deleteDto.setMessage("Employee deleted successfully!.");
+        return ResponseEntity.ok(deleteDto);
     }
 }

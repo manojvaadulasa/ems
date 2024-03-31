@@ -30,6 +30,7 @@ import { DepartmentInterface } from "./department.interface";
   ]
 })
 export class DepartmentComponent implements OnInit,OnDestroy{
+
   toForm = signal(false);
   toEditForm = signal(false);
   data$:DepartmentInterface[]=[];
@@ -45,10 +46,13 @@ export class DepartmentComponent implements OnInit,OnDestroy{
   });
   unsubscribe$=new Subject<void>();
   url:string=environment.URL;
+
   http=inject(HttpClient);
+
   public ngOnInit():void{
     this.getAllDepartments();
   }
+
   public getAllDepartments():void{
     this.http.get(this.url+"departments")
     .pipe(takeUntil(this.unsubscribe$))
@@ -56,16 +60,19 @@ export class DepartmentComponent implements OnInit,OnDestroy{
       this.data$=res;
     });
   }
+
   ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
   }
+
   submitForm():void{
     this.http.post(this.url+"departments",this.form.getRawValue())
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(()=>this.getAllDepartments());
     this.toForm.set(false);
   }
+
   onClickUpdate(data:DepartmentInterface):void{
     this.editingForm.setValue({
       "id": data.id,
@@ -75,6 +82,7 @@ export class DepartmentComponent implements OnInit,OnDestroy{
     this.toForm.set(true);
     this.toEditForm.set(true);
   }
+
   submitEditForm():void{
     let updateUrl:string=`departments/${this.editingForm.get("id")?.value}`;
     this.http.put(this.url+updateUrl,this.editingForm.getRawValue())
@@ -83,10 +91,12 @@ export class DepartmentComponent implements OnInit,OnDestroy{
     this.toEditForm.set(false);
     this.toForm.set(false);
   }
+
   onClickDelete(data:DepartmentInterface):void{
     let updateUrl:string=`departments/${data.id}`;
     this.http.delete(this.url+updateUrl)
       .pipe(takeUntil(this.unsubscribe$))
       .subscribe(()=>this.getAllDepartments());
   }
+
 }
